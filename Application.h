@@ -5,16 +5,20 @@
 
 #pragma once
 #include <iostream>
+#include <vector>
 #include <raylib/raylib.h>
 #include <magique/core/Game.h>
 #include <magique/ecs/Scripting.h>
 
 
-#define SPACING 3
-#define GRID_SIZE 25
-#define CELL_SIZE 80
+#define SPACING 25
+#define BOARD_ARRAY_SIZE 7
+#define GRID_POSITION_X 100 //both sets the same x and y pos imagine a diagonal
+#define GRID_POSITION_Y 100 //both sets the same x and y pos imagine a diagonal
+#define CELL_RADIUS 25 // sets the cells radius
 #define PADDING 50
 
+using namespace std;
 
 //todo-list make a template for everything that you need to fully maximize the engine capabilities
 
@@ -22,18 +26,24 @@
 
 using namespace magique;
 
-typedef struct
+struct Position
 {
-    int x, y;
-} Vertex;
+    short x, y;
+    vector<pair<int,int>>* connections;  // Use a vector of pointers to Vertex
+
+    Position(short x, short y) : x(x), y(y)
+    {
+        connections = new vector<pair<int, int>>;
+    }
+
+};
+
 
 // Entity identifiers
 enum EntityID : uint16_t
 {
-    PLAYER,
-    BULLET,
-    ROCK,
-    HOUSE,
+    NORMAL_PAWN,
+    OFFICER_PAWN,
     STATIC_CAMERA, // In this example the camera is static and not attached to a entity
 };
 
@@ -46,23 +56,19 @@ enum class GameState
 
 enum class MapID : uint8_t
 {
-    LEVEL_1,
+    MENU_SCREEN,
+    LEVEL,
     GAME_OVER_LEVEL,
-};
-
-enum PawnType
-{
-    NORMAL_PAWN,
-    OFFICER
 };
 
 struct Grid
 {
-
+    void SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>>& directions);
     void GenerateVertices(const int pivotX, const  int pivotY);
     void DrawPieces();
+    Position GridToBoardPosition(int i, int j);
 
-    int gridConnections[GRID_SIZE][GRID_SIZE] =
+    int gridConnections[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
     {
         {0,0,1,1,1,0,0},
         {0,0,1,2,1,0,0},
@@ -73,7 +79,7 @@ struct Grid
         {0,0,1,1,1,0,0}
     };
     
-    int spawnLocationsGrid[GRID_SIZE][GRID_SIZE] =
+    int spawnLocationsGrid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
     {
         {0,0,1,1,1,0,0},
         {0,0,1,1,1,0,0},
@@ -84,22 +90,22 @@ struct Grid
         {0,0,0,0,2,0,0}
     };
 
-    short spawnLocationsGrid[GRID_SIZE][GRID_SIZE] =
-    {
-        {0,0,1,1,1,0,0},
-        {0,0,1,1,1,0,0},
-        {1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1},
-        {1,1,2,0,0,1,1},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,2,0,0}
+    const vector<std::pair<int, int>> surroudingDirections = {
+     {-1, -1}, {-1, 0}, {-1, 1},   // Top-left, top, top-right
+     {0, -1},         {0, 1},      // Left,      , right
+     {1, -1}, {1, 0}, {1, 1}       // Bottom-left, bottom, bottom-right
     };
 
+    const vector<pair<int, int>> neighborDirections = {
+            {-1, 0},    // Top-left, top, top-right
+     {0, -1},         {0, 1},      // Left,      , right
+             {1, 0}
+    };
 
 
 private:
-    Vertex connectionVertices[GRID_SIZE * GRID_SIZE - 16];
-    Vertex spawnLocationVertices[GRID_SIZE * GRID_SIZE - 16];
+    Position* connectionVertices[BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16];
+    Position* spawnLocationVertices[BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16];
 };
 
 struct Application final : Game
@@ -116,19 +122,6 @@ public:
 private:
     Grid* gridConnections = new Grid();
 };
-
-struct OfficerPawn
-{
-
-};
-
-struct NormalPawn
-{
-
-};
-
-
-
 
 
 #endif // DEsBUG
