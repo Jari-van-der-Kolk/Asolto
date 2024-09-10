@@ -5,7 +5,9 @@
 
 #pragma once
 #include <iostream>
+#include <map>
 #include <vector>
+#include <utility>  // for std::make_pair
 #include <raylib/raylib.h>
 #include <magique/core/Game.h>
 #include <magique/ecs/Scripting.h>
@@ -29,11 +31,15 @@ using namespace magique;
 struct Position
 {
     short x, y;
-    vector<pair<int,int>>* connections;  // Use a vector of pointers to Vertex
+    multimap<short, short>* connections = new multimap<short, short>;
 
     Position(short x, short y) : x(x), y(y)
+    { 
+    }
+
+    ~Position()
     {
-        connections = new vector<pair<int, int>>;
+        delete connections;
     }
 
 };
@@ -63,10 +69,9 @@ enum class MapID : uint8_t
 
 struct Grid
 {
-    void SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>>& directions);
+    void SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>> directions);
     void GenerateVertices(const int pivotX, const  int pivotY);
     void DrawPieces();
-    Position GridToBoardPosition(int i, int j);
 
     int gridConnections[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
     {

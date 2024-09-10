@@ -40,16 +40,8 @@ void Application::onCloseEvent()
     shutDown();
 }
 
-Position Grid::GridToBoardPosition(int i, int j)
-{
-    //generate the vertex position
-    short x = GRID_POSITION_X + i * SPACING;
-    short y = GRID_POSITION_Y + j * SPACING;
 
-    return {x,y};
-};
-
-void Grid::SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>>& directions)
+void Grid::SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>> directions)
 {
     for(const auto& dir : directions)
     {
@@ -61,10 +53,14 @@ void Grid::SetSurroundingPositions(Position* pos, int i, int j, const vector<pai
             // Ensure the neighbor is within the bounds and check gridConnections
             if(gridConnections[new_i][new_j] != 0)
             {
-                pos->connections->emplace_back(new_i, new_j);
+                pair<int, int> connectedIndex = make_pair(new_i, new_j);
+                pos->connections->emplace(connectedIndex);
             }
         }
     }
+
+
+    cout << pos->connections->size() << endl;
 
 }
 
@@ -107,22 +103,26 @@ void Grid::GenerateVertices(const int pivotX, const int pivotY)
     //std::cout << index << std::endl;
 }
 
+
 void Grid::DrawPieces()
 {
+    int index = 0;
     int length = sizeof(connectionVertices) / sizeof(connectionVertices[0]);
     for(int i = 0; i < length; i++)
     {
-        int x0 = connectionVertices[i]->x;
-        int y0 = connectionVertices[i]->y;
+        short x0 = connectionVertices[i]->x;
+        short y0 = connectionVertices[i]->y;
         DrawCircle(x0, y0, CELL_RADIUS * .25f, BLACK);
 
-        auto& cVert = connectionVertices[i]->connections;
+
         
-        for(int j = 0; j < cVert->size(); j++)
+        for(auto& con : *connectionVertices[i]->connections)
         {
-            auto pos = GridToBoardPosition(i, j);
-            DrawLine(x0, y0, pos.x, pos.y, BLACK);
+            short x1 = GRID_POSITION_X + con.first * SPACING;
+            short y1 = GRID_POSITION_Y + con.second * SPACING;
+            DrawLine(x0, y0, x1, y1, BLACK);
         }
+
     }
 
     
