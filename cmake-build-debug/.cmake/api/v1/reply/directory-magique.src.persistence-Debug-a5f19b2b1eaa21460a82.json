@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "magique/src/persistence",
+		"source" : "C:/Dev/Magique-Engine/src/persistence"
+	}
+}

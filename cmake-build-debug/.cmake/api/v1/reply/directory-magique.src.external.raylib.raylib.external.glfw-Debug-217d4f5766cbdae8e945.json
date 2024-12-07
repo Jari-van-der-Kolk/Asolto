@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "magique/src/external/raylib/raylib/external/glfw",
+		"source" : "C:/Dev/Magique-Engine/src/external/raylib/src/external/glfw"
+	}
+}

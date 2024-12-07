@@ -1,0 +1,511 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "magique/libmagique.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"include",
+			"add_compile_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"C:/Dev/Magique-Engine/CMakeLists.txt",
+			"C:/Dev/Magique-Engine/cmake/LinkRaylib.cmake",
+			"C:/Dev/Magique-Engine/cmake/ParseOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 86,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 98,
+				"parent" : 0
+			},
+			{
+				"file" : 1,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 52,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"file" : 2,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 65,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 90,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "magique-assets::@95a94f796beace6a6edc"
+		},
+		{
+			"id" : "magique-core::@70d48384cdf1482a00b3"
+		},
+		{
+			"id" : "magique-ecs::@7c202084fceec18a86c5"
+		},
+		{
+			"id" : "magique-gamedev::@7f8151391269d428df34"
+		},
+		{
+			"id" : "magique-internal::@396c428c3b27e9157e28"
+		},
+		{
+			"id" : "magique-ui::@bb8c79bf631056e09f42"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "raylib::@2e67394240e2c00001f3"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "glfw::@05ba8a160371b259242b"
+		},
+		{
+			"id" : "magique-util::@e1dc4089c2ceb3d9b4d3"
+		},
+		{
+			"id" : "magique-persistence::@05c8422ced3db40560b0"
+		}
+	],
+	"id" : "magique::@9f88c89f3fd0b3062d1f",
+	"name" : "magique",
+	"nameOnDisk" : "libmagique.a",
+	"paths" : 
+	{
+		"build" : "magique",
+		"source" : "C:/Dev/Magique-Engine"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Allocator.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Animations.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/CollisionDetection.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Core.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Debug.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Draw.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Game.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Particles.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Sound.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/StaticCollision.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/core/CMakeFiles/magique-core.dir/Types.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/Asset.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/AssetContainer.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/AssetLoader.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/AssetManager.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/AssetPacker.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/HandleRegistry.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/Playlist.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/TileMap.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/TileSet.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/assets/CMakeFiles/magique-assets.dir/TileSheet.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ecs/CMakeFiles/magique-ecs.dir/Components.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ecs/CMakeFiles/magique-ecs.dir/ECS.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ecs/CMakeFiles/magique-ecs.dir/Scripting.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/util/CMakeFiles/magique-util.dir/Compression.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/util/CMakeFiles/magique-util.dir/Jobs.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/util/CMakeFiles/magique-util.dir/Logging.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/util/CMakeFiles/magique-util.dir/Math.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/util/CMakeFiles/magique-util.dir/RayUtils.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/util/CMakeFiles/magique-util.dir/Strings.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/Button.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/LoadingScreen.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/TextField.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/TextFormat.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/UI.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/UIContainer.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/UIObject.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/Window.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/ui/CMakeFiles/magique-ui.dir/WindowManager.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/internal/CMakeFiles/magique-internal.dir/InternalTypes.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/internal/CMakeFiles/magique-internal.dir/Macros.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/Achievements.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/Behavior.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/Console.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/Localization.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/PathFinding.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/Procedural.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/ShareCode.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/ThreatComponent.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/gamedev/CMakeFiles/magique-gamedev.dir/VirtualClock.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/persistence/CMakeFiles/magique-persistence.dir/GameConfig.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/persistence/CMakeFiles/magique-persistence.dir/GameLoader.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/persistence/CMakeFiles/magique-persistence.dir/GameSave.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/magique/src/persistence/CMakeFiles/magique-persistence.dir/GameSaver.cpp.obj",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

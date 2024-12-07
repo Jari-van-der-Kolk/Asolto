@@ -28,22 +28,6 @@ using namespace std;
 
 using namespace magique;
 
-struct Position
-{
-    short x, y;
-    multimap<short, short>* connections = new multimap<short, short>;
-
-    Position(short x, short y) : x(x), y(y)
-    { 
-    }
-
-    ~Position()
-    {
-        delete connections;
-    }
-
-};
-
 
 // Entity identifiers
 enum EntityID : uint16_t
@@ -69,32 +53,21 @@ enum class MapID : uint8_t
 
 struct Grid
 {
-    void SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>> directions);
-    void GenerateVertices(const int pivotX, const  int pivotY);
-    void DrawPieces();
+    
 
-    int gridConnections[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
+    int gridConnections[9][9] =
     {
-        {0,0,1,1,1,0,0},
-        {0,0,1,2,1,0,0},
-        {1,1,1,1,1,1,1},
-        {1,2,1,2,1,2,1},
-        {1,1,1,1,1,1,1},
-        {0,0,1,2,1,0,0},
-        {0,0,1,1,1,0,0}
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,1,1,1,0,0,0},
+        {0,0,0,1,1,1,0,0,0},
+        {0,1,1,1,1,1,1,1,0},
+        {0,1,1,1,1,1,1,1,0},
+        {0,1,1,1,1,1,1,1,0},
+        {0,0,0,1,1,1,0,0,0},
+        {0,0,0,1,1,1,0,0,0},
+        {0,0,0,0,0,0,0,0,0}
     };
     
-    int spawnLocationsGrid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
-    {
-        {0,0,1,1,1,0,0},
-        {0,0,1,1,1,0,0},
-        {1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1},
-        {1,1,2,0,0,1,1},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,2,0,0}
-    };
-
     const vector<std::pair<int, int>> surroudingDirections = {
      {-1, -1}, {-1, 0}, {-1, 1},   // Top-left, top, top-right
      {0, -1},         {0, 1},      // Left,      , right
@@ -108,17 +81,13 @@ struct Grid
     };
 
 
-private:
-    Position* connectionVertices[BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16];
-    Position* spawnLocationVertices[BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16];
 };
 
 struct Application final : Game
 {
 public:
-    Application() : Game("Alquerque") {}
+    Application() : Game("Asolto") {}
     ~Application(){}
-    void onStartup(AssetLoader& loader, GameConfig& config) override;
     void updateGame(GameState gameState) override;
     void drawGame(GameState gameState, Camera2D& camera) override;
     void onCloseEvent() override;
@@ -128,5 +97,7 @@ private:
     Grid* gridConnections = new Grid();
 };
 
+
+struct Slot
 
 #endif // DEsBUG

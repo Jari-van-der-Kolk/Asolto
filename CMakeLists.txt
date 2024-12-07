@@ -8,5 +8,6 @@ project(MyProject VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory("C:/Dev/Magique-Engine" magique)
-add_executable(MyGame "Application.h"  main.cpp)
-target_link_libraries(MyGame PRIVATE magique)
+add_executable(Asolto "Application.cpp"  main.cpp)
+target_link_libraries(Asolto PRIVATE magique)
+

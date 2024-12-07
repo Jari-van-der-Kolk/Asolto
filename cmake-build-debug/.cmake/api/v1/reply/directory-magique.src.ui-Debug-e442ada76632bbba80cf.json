@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "magique/src/ui",
+		"source" : "C:/Dev/Magique-Engine/src/ui"
+	}
+}

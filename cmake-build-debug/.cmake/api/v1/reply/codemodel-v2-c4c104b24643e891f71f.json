@@ -1,0 +1,427 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.28"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "magique",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					],
+					"jsonFile" : "directory-magique-Debug-5949c12de2ebaa5872b5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "magique/src/assets",
+					"jsonFile" : "directory-magique.src.assets-Debug-7da22f54c97a85de10dc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/assets",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "magique/src/core",
+					"jsonFile" : "directory-magique.src.core-Debug-7e5891327b09e419ada9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/core",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "magique/src/ecs",
+					"jsonFile" : "directory-magique.src.ecs-Debug-1f4dcee1babc9a2971c1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/ecs",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "magique/src/gamedev",
+					"jsonFile" : "directory-magique.src.gamedev-Debug-9ec50a80f136c7d7e4c3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/gamedev",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "magique/src/internal",
+					"jsonFile" : "directory-magique.src.internal-Debug-7b26e2afc2f3706b6c13.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/internal",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "magique/src/persistence",
+					"jsonFile" : "directory-magique.src.persistence-Debug-a5f19b2b1eaa21460a82.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/persistence",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "magique/src/ui",
+					"jsonFile" : "directory-magique.src.ui-Debug-e442ada76632bbba80cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/ui",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "magique/src/util",
+					"jsonFile" : "directory-magique.src.util-Debug-b92c2916069da1dae962.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "C:/Dev/Magique-Engine/src/util",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "magique/src/external/raylib",
+					"childIndexes" : 
+					[
+						11
+					],
+					"jsonFile" : "directory-magique.src.external.raylib-Debug-a1f0e55a6f5833a5b7bc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "C:/Dev/Magique-Engine/src/external/raylib"
+				},
+				{
+					"build" : "magique/src/external/raylib/raylib",
+					"childIndexes" : 
+					[
+						12
+					],
+					"jsonFile" : "directory-magique.src.external.raylib.raylib-Debug-86c6daeaa90feb604403.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 2,
+					"source" : "C:/Dev/Magique-Engine/src/external/raylib/src",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "magique/src/external/raylib/raylib/external/glfw",
+					"childIndexes" : 
+					[
+						13
+					],
+					"jsonFile" : "directory-magique.src.external.raylib.raylib.external.glfw-Debug-217d4f5766cbdae8e945.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 11,
+					"projectIndex" : 3,
+					"source" : "C:/Dev/Magique-Engine/src/external/raylib/src/external/glfw"
+				},
+				{
+					"build" : "magique/src/external/raylib/raylib/external/glfw/src",
+					"jsonFile" : "directory-magique.src.external.raylib.raylib.external.glfw.src-Debug-1eedeadc940e3998d4b9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 3,
+					"source" : "C:/Dev/Magique-Engine/src/external/raylib/src/external/glfw/src",
+					"targetIndexes" : 
+					[
+						1,
+						12
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "MyProject",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"name" : "magique",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						3
+					],
+					"directoryIndexes" : 
+					[
+						10,
+						11
+					],
+					"name" : "raylib",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						12,
+						13
+					],
+					"name" : "GLFW",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						1,
+						12
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Asolto::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Asolto-Debug-6ced5f809cfe05ad98f5.json",
+					"name" : "Asolto",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "glfw::@05ba8a160371b259242b",
+					"jsonFile" : "target-glfw-Debug-42abcd4d0abced2c8f6e.json",
+					"name" : "glfw",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "magique::@9f88c89f3fd0b3062d1f",
+					"jsonFile" : "target-magique-Debug-663dc3a953afdf733446.json",
+					"name" : "magique",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "magique-assets::@95a94f796beace6a6edc",
+					"jsonFile" : "target-magique-assets-Debug-5b747cf0336713dadb6b.json",
+					"name" : "magique-assets",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "magique-core::@70d48384cdf1482a00b3",
+					"jsonFile" : "target-magique-core-Debug-ca39beed4964e1340c3a.json",
+					"name" : "magique-core",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "magique-ecs::@7c202084fceec18a86c5",
+					"jsonFile" : "target-magique-ecs-Debug-e79166b14bdbc9586388.json",
+					"name" : "magique-ecs",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "magique-gamedev::@7f8151391269d428df34",
+					"jsonFile" : "target-magique-gamedev-Debug-c4970b3e0b7c14804c70.json",
+					"name" : "magique-gamedev",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "magique-internal::@396c428c3b27e9157e28",
+					"jsonFile" : "target-magique-internal-Debug-a6c5e12b8b284657fc02.json",
+					"name" : "magique-internal",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "magique-persistence::@05c8422ced3db40560b0",
+					"jsonFile" : "target-magique-persistence-Debug-eec60c13e5e5a4e29b69.json",
+					"name" : "magique-persistence",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "magique-ui::@bb8c79bf631056e09f42",
+					"jsonFile" : "target-magique-ui-Debug-617d291d95d5efe18754.json",
+					"name" : "magique-ui",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "magique-util::@e1dc4089c2ceb3d9b4d3",
+					"jsonFile" : "target-magique-util-Debug-f58df2334baa1315fdbb.json",
+					"name" : "magique-util",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "raylib::@2e67394240e2c00001f3",
+					"jsonFile" : "target-raylib-Debug-e0a4264b67f60d85de76.json",
+					"name" : "raylib",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "update_mappings::@05ba8a160371b259242b",
+					"jsonFile" : "target-update_mappings-Debug-1b8fbd5dd9bcd718d508.json",
+					"name" : "update_mappings",
+					"projectIndex" : 3
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Dev/Projects/magique Projects/Asolto/cmake-build-debug",
+		"source" : "C:/Dev/Projects/magique Projects/Asolto"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

@@ -1,0 +1,294 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./Asset.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./AssetContainer.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./AssetLoader.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./AssetManager.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./AssetPacker.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./HandleRegistry.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./Playlist.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./TileMap.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./TileSet.cpp.obj"
+		},
+		{
+			"path" : "magique/src/assets/CMakeFiles/magique-assets.dir/./TileSheet.cpp.obj"
+		}
+	],
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include",
+			"target_compile_options",
+			"add_compile_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"C:/Dev/Magique-Engine/cmake/DefineModule.cmake",
+			"C:/Dev/Magique-Engine/src/assets/CMakeLists.txt",
+			"C:/Dev/Magique-Engine/cmake/ParseOptions.cmake",
+			"C:/Dev/Magique-Engine/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 2,
+				"parent" : 0
+			},
+			{
+				"file" : 0,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 11,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 2
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 3,
+				"line" : 29,
+				"parent" : 6
+			},
+			{
+				"file" : 2,
+				"parent" : 7
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 65,
+				"parent" : 8
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 2
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu++20 -fdiagnostics-color=always"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-std=c++20"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-ffast-math"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fno-exceptions"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fno-rtti"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fvisibility=hidden"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Og"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-g"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "MAGIQUE_VERSION=\"0.5.0\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 10,
+					"path" : "C:/Dev/Magique-Engine/include"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "C:/Dev/Magique-Engine/src"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "C:/Dev/Magique-Engine/src/external/cxstructs"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					3
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"id" : "magique-assets::@95a94f796beace6a6edc",
+	"name" : "magique-assets",
+	"paths" : 
+	{
+		"build" : "magique/src/assets",
+		"source" : "C:/Dev/Magique-Engine/src/assets"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/Asset.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/AssetContainer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/AssetLoader.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/AssetManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/AssetPacker.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/HandleRegistry.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/Playlist.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/TileMap.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/TileSet.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "C:/Dev/Magique-Engine/src/assets/TileSheet.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}
