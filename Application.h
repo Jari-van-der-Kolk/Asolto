@@ -9,8 +9,7 @@
 #include <vector>
 #include <utility>  // for std::make_pair
 #include <raylib/raylib.h>
-#include <magique/core/Game.h>
-#include <magique/ecs/Scripting.h>
+#include <magique/magique.hpp>
 
 
 #define SPACING 25
@@ -28,29 +27,47 @@ using namespace std;
 
 using namespace magique;
 
-struct Position
+class Grid
 {
-    short x, y;
-    multimap<short, short>* connections = new multimap<short, short>;
-
-    Position(short x, short y) : x(x), y(y)
-    { 
-    }
-
-    ~Position()
+public:
+    int grid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
     {
-        delete connections;
-    }
+        {0,0,1,1,1,0,0},
+        {0,0,1,1,1,0,0},
+        {1,1,1,1,1,1,1},
+        {1,1,1,1,1,1,1},
+        {1,1,2,3,3,1,1},
+        {0,0,3,3,3,0,0},
+        {0,0,3,3,2,0,0}
+    };
 
+
+
+    const vector<std::pair<int, int>> surroudingDirections = {
+        {-1, -1}, {-1, 0}, {-1, 1},   // Top-left, top, top-right
+        {0, -1},         {0, 1},      // Left,      l, right
+        {1, -1}, {1, 0}, {1, 1}       // Bottom-left, bottom, bottom-right
+    };
+
+    const vector<pair<int, int>> neighborDirections = {
+        {-1, 0},    // Top-left, top, top-right
+ {0, -1},         {0, 1},      // Left,      , right
+         {1, 0}
+    };
 };
 
 
 // Entity identifiers
-enum EntityID : uint16_t
+enum EntityType : uint16_t
 {
-    NORMAL_PAWN,
-    OFFICER_PAWN,
+    SLOT,
     STATIC_CAMERA, // In this example the camera is static and not attached to a entity
+};
+
+enum class MapID : uint8_t
+{
+    LEVEL,
+    GAME_OVER_LEVEL,
 };
 
 enum class GameState
@@ -60,72 +77,59 @@ enum class GameState
     GAME_OVER,
 };
 
-enum class MapID : uint8_t
+//components
+
+struct SlotC
 {
-    MENU_SCREEN,
-    LEVEL,
-    GAME_OVER_LEVEL,
+    float radius = 10;
+    bool soldier;
+    bool lieutenant;
+    bool selected;
+    bool clicked = false;
+
+    void SetRadius(float radius)
+    {
+        this->radius = radius;
+    }
+
+
+    bool mouseInBounds(entt::entity entity)
+    {
+        auto& pos = GetComponent<PositionC>(entity);
+        // Define the AABB rectangle around the circle
+        Rectangle aabb = { pos.x - radius, pos.y - radius, radius * 2, radius * 2 };
+
+        // Get the mouse position
+        Vector2 mousePos = GetMousePosition();
+
+        // Check if the mouse is within the rectangle
+        return CheckCollisionPointRec(mousePos, aabb);
+    }
 };
 
-struct Grid
+
+//scripts
+struct SlotScript final : EntityScript
 {
-    void SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>> directions);
-    void GenerateVertices(const int pivotX, const  int pivotY);
-    void DrawPieces();
-
-    int gridConnections[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
-    {
-        {0,0,1,1,1,0,0},
-        {0,0,1,2,1,0,0},
-        {1,1,1,1,1,1,1},
-        {1,2,1,2,1,2,1},
-        {1,1,1,1,1,1,1},
-        {0,0,1,2,1,0,0},
-        {0,0,1,1,1,0,0}
-    };
-    
-    int spawnLocationsGrid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
-    {
-        {0,0,1,1,1,0,0},
-        {0,0,1,1,1,0,0},
-        {1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1},
-        {1,1,2,0,0,1,1},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,2,0,0}
-    };
-
-    const vector<std::pair<int, int>> surroudingDirections = {
-     {-1, -1}, {-1, 0}, {-1, 1},   // Top-left, top, top-right
-     {0, -1},         {0, 1},      // Left,      , right
-     {1, -1}, {1, 0}, {1, 1}       // Bottom-left, bottom, bottom-right
-    };
-
-    const vector<pair<int, int>> neighborDirections = {
-            {-1, 0},    // Top-left, top, top-right
-     {0, -1},         {0, 1},      // Left,      , right
-             {1, 0}
-    };
-
-
-private:
-    Position* connectionVertices[BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16];
-    Position* spawnLocationVertices[BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16];
+    void onCreate(entt::entity self) override;
+    void onMouseEvent(entt::entity self) override;
 };
 
 struct Application final : Game
 {
 public:
-    Application() : Game("Alquerque") {}
+
+    void GenerateMap(float slotRadius);
+
+    Application() : Game("Asolto") {}
     ~Application(){}
-    void onStartup(AssetLoader& loader, GameConfig& config) override;
+    void onStartup(AssetLoader& loader) override;
     void updateGame(GameState gameState) override;
     void drawGame(GameState gameState, Camera2D& camera) override;
     void onCloseEvent() override;
     
 
 private:
-    Grid* gridConnections = new Grid();
 };
 
 

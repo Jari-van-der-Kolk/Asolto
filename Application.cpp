@@ -1,5 +1,6 @@
 ﻿#include "Application.h"
-
+#include "Application.h"
+#include "GLFW/glfw3.h"
 //0011100
 //0011100
 //1111111
@@ -8,11 +9,84 @@
 //0022200
 //0022200
 
-void Application::onStartup(AssetLoader& loader, GameConfig& config)
+static Grid asoltoBoard;
+
+void SlotScript::onCreate(entt::entity self)
+{
+    EntityScript::onCreate(self);
+
+}
+
+void SlotScript::onMouseEvent(entt::entity self)
+{
+    EntityScript::onMouseEvent(self);
+
+    auto& slotc = GetComponent<SlotC>(self);
+    if (slotc.clicked == false && IsMouseButtonDown(0) && slotc.mouseInBounds(self))
+    {
+        slotc.clicked = true;
+        slotc.selected = true;
+    }
+    if ( IsMouseButtonUp(0))
+    {
+        slotc.clicked = false;
+        slotc.selected = false;
+    }
+}
+
+void Application::GenerateMap(float slotRadius)
+{
+    Vector2 middlePoint (GetScreenWidth() / 2, GetScreenHeight() / 2);
+    for (int y = 0; y < BOARD_ARRAY_SIZE; y++)
+    {
+        for (int x = 0; x < BOARD_ARRAY_SIZE; x++)
+        {
+            int cell = asoltoBoard.grid[y][x];
+            if (cell >= 1)
+            {
+                float posX = middlePoint.x + (x - BOARD_ARRAY_SIZE / 2) * slotRadius;
+                float posY = middlePoint.y + (y - BOARD_ARRAY_SIZE / 2) * slotRadius;
+                auto slot = CreateEntity(SLOT, posX, posY, MapID::LEVEL);
+
+                auto& slotC = GetComponent<SlotC>(slot);
+
+                slotC.SetRadius(30);
+
+                if (cell == 1)
+                {
+                    slotC.soldier = true;
+                }
+                if (cell == 2)
+                {
+                    slotC.lieutenant = true;
+                }
+
+            }
+        }
+    }
+}
+
+void Application::onStartup(AssetLoader& loader)
 {
     SetTargetFPS(144);
-    std::cout << BOARD_ARRAY_SIZE * BOARD_ARRAY_SIZE - 16 << std::endl;
-    gridConnections->GenerateVertices(PADDING, PADDING);
+    SetTraceLogLevel(LOG_NONE);
+    SetStaticWorldBounds({0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}); // Easy way to set up world bounds
+
+    SetEntityScript(SLOT, new SlotScript());
+
+    RegisterEntity(SLOT, [](entt::entity entity, EntityType type)
+    {
+        GiveActor(entity);
+        GiveScript(entity);
+        GiveComponent<SlotC>(entity);
+    });
+
+
+    RegisterEntity(STATIC_CAMERA, [](entt::entity entity, EntityType type) { GiveCamera(entity); });
+
+    CreateEntity(STATIC_CAMERA, GetScreenWidth() / 2, GetScreenHeight() / 2, MapID::LEVEL);
+
+    GenerateMap(30);
 };
 
 void Application::updateGame(GameState gameState)
@@ -21,15 +95,37 @@ void Application::updateGame(GameState gameState)
     {
         shutDown();
     }
-
 };
 
 void Application::drawGame(GameState gameState, Camera2D& camera)
 {
     BeginDrawing();
-    ClearBackground(WHITE);
-    gridConnections->DrawPieces();
+    ClearBackground(BLACK);
+    auto& drawEntities = GetDrawEntities(); // Get the entities that need to be drawn
+    for (auto& e : drawEntities)
+    {
+        auto& pos = GetComponent<PositionC>(e); // Get the implicit position component
+        switch (pos.type)
+        {
+        case SLOT:
+            auto& slot = GetComponent<SlotC>(e);
+            DrawRectangleLines(pos.x, pos.y, slot.radius, slot.radius, WHITE);
 
+
+            if (slot.soldier)
+            {
+                DrawCircle(pos.x, pos.y, slot.radius * .5f, WHITE);
+            }
+
+            if (slot.lieutenant)
+            {
+                DrawCircle(pos.x, pos.y, slot.radius * .5f, BLUE);
+            }
+
+
+            break;
+        }
+    }
 
     EndDrawing();
 
@@ -39,96 +135,6 @@ void Application::onCloseEvent()
    
     shutDown();
 }
-
-
-void Grid::SetSurroundingPositions(Position* pos, int i, int j, const vector<pair<int, int>> directions)
-{
-    for(const auto& dir : directions)
-    {
-        int new_i = i + dir.first;
-        int new_j = j + dir.second;
-
-        if(new_i >= 0 && new_i < BOARD_ARRAY_SIZE && new_j >= 0 && new_j < BOARD_ARRAY_SIZE)
-        {
-            // Ensure the neighbor is within the bounds and check gridConnections
-            if(gridConnections[new_i][new_j] != 0)
-            {
-                pair<int, int> connectedIndex = make_pair(new_i, new_j);
-                pos->connections->emplace(connectedIndex);
-            }
-        }
-    }
-
-
-    cout << pos->connections->size() << endl;
-
-}
-
-
-
-
-void Grid::GenerateVertices(const int pivotX, const int pivotY)
-{
-    int index = 0;
-
-    for(int i = 0; i < BOARD_ARRAY_SIZE; i++)
-    {
-        for(int j = 0; j < BOARD_ARRAY_SIZE; j++)
-        {
-            //check if connection type is not empty
-            int connectionType = gridConnections[i][j];
-            if(connectionType == 0)
-                continue;
-
-            short x = GRID_POSITION_X + i * SPACING;
-            short y = GRID_POSITION_Y + j * SPACING;
-            
-            connectionVertices[index] = new Position(x, y);
-            Position* v = connectionVertices[index];
-
-            //generate the connections
-            if(connectionType == 1)
-            {
-                SetSurroundingPositions(v, i, j, neighborDirections);
-            }
-            else if(connectionType == 2)
-            {
-                SetSurroundingPositions(v, i, j, surroudingDirections);
-            }
-
-            index++;
-        }
-    }
-
-    //std::cout << index << std::endl;
-}
-
-
-void Grid::DrawPieces()
-{
-    int index = 0;
-    int length = sizeof(connectionVertices) / sizeof(connectionVertices[0]);
-    for(int i = 0; i < length; i++)
-    {
-        short x0 = connectionVertices[i]->x;
-        short y0 = connectionVertices[i]->y;
-        DrawCircle(x0, y0, CELL_RADIUS * .25f, BLACK);
-
-
-        
-        for(auto& con : *connectionVertices[i]->connections)
-        {
-            short x1 = GRID_POSITION_X + con.first * SPACING;
-            short y1 = GRID_POSITION_Y + con.second * SPACING;
-            DrawLine(x0, y0, x1, y1, BLACK);
-        }
-
-    }
-
-    
-
-}
-
 
 
 
