@@ -34,12 +34,17 @@ void SlotScript::onMouseEvent(entt::entity self)
         slot.clicked = true;
         if (slot.mouseInBounds(self))
         {
-            auto& originSlot = GetComponent<SlotC>(previousSlot);
-            slot.selected = !slot.selected;
-            if (slot.selected && slot.pawnType == PawnType::NONE)
+
+            // Check if the previousSlot is valid and contains the SlotC component
+            if (previousSlot != entt::null && internal::REGISTRY.valid(previousSlot) && internal::REGISTRY.all_of<SlotC>(previousSlot))
             {
-                MoveOccupier(slot, );
+                auto& originSlot = GetComponent<SlotC>(previousSlot);
+                if (slot.pawnType == PawnType::NONE)
+                {
+                    MoveOccupier(slot, originSlot);
+                }
             }
+            slot.selected = !slot.selected;
             previousSlot = self;
         }
     }
@@ -161,7 +166,7 @@ void Application::drawGame(GameState gameState, Camera2D& camera)
 };
 void Application::onCloseEvent()
 {
-   
+
     shutDown();
 }
 
