@@ -64,6 +64,13 @@ enum EntityType : uint16_t
     STATIC_CAMERA, // In this example the camera is static and not attached to a entity
 };
 
+enum class PawnType : uint8_t
+{
+    NONE,
+    SOLDIER,
+    LIEUTENANT
+};
+
 enum class MapID : uint8_t
 {
     LEVEL,
@@ -81,9 +88,12 @@ enum class GameState
 
 struct SlotC
 {
+    //config
     float radius = 10;
-    bool soldier;
-    bool lieutenant;
+    PawnType pawnType;
+
+
+    //state
     bool selected;
     bool clicked = false;
 
@@ -92,12 +102,21 @@ struct SlotC
         this->radius = radius;
     }
 
+    void SetPawnType(PawnType pawnType)
+    {
+        this->pawnType = pawnType;
+    }
+
+    PawnType GetPawnType() const
+    {
+        return this->pawnType;
+    }
 
     bool mouseInBounds(entt::entity entity)
     {
         auto& pos = GetComponent<PositionC>(entity);
         // Define the AABB rectangle around the circle
-        Rectangle aabb = { pos.x - radius, pos.y - radius, radius * 2, radius * 2 };
+        Rectangle aabb = { pos.x, pos.y, radius, radius };
 
         // Get the mouse position
         Vector2 mousePos = GetMousePosition();
@@ -113,6 +132,12 @@ struct SlotScript final : EntityScript
 {
     void onCreate(entt::entity self) override;
     void onMouseEvent(entt::entity self) override;
+
+    void MoveOccupier(SlotC& self, SlotC& other)
+    {
+        self.SetPawnType(other.pawnType);
+        other.SetPawnType(PawnType::NONE);
+    }
 };
 
 struct Application final : Game

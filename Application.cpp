@@ -1,5 +1,8 @@
 ﻿#include "Application.h"
 #include "Application.h"
+
+#include <sys/stat.h>
+
 #include "GLFW/glfw3.h"
 //0011100
 //0011100
@@ -10,6 +13,8 @@
 //0022200
 
 static Grid asoltoBoard;
+static bool clicked = false;
+static entt::entity previousSlot;
 
 void SlotScript::onCreate(entt::entity self)
 {
@@ -19,19 +24,34 @@ void SlotScript::onCreate(entt::entity self)
 
 void SlotScript::onMouseEvent(entt::entity self)
 {
+    // Call the parent class method
     EntityScript::onMouseEvent(self);
 
-    auto& slotc = GetComponent<SlotC>(self);
-    if (slotc.clicked == false && IsMouseButtonDown(0) && slotc.mouseInBounds(self))
+    auto& slot = GetComponent<SlotC>(self);
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !slot.clicked)
     {
-        slotc.clicked = true;
-        slotc.selected = true;
+        slot.clicked = true;
+        if (slot.mouseInBounds(self))
+        {
+            auto& originSlot = GetComponent<SlotC>(previousSlot);
+            slot.selected = !slot.selected;
+            if (slot.selected && slot.pawnType == PawnType::NONE)
+            {
+                MoveOccupier(slot, );
+            }
+            previousSlot = self;
+        }
     }
-    if ( IsMouseButtonUp(0))
+    else
     {
-        slotc.clicked = false;
-        slotc.selected = false;
+        slot.clicked = false;
+        if (previousSlot != self)
+        {
+            slot.selected = false;
+        }
     }
+
 }
 
 void Application::GenerateMap(float slotRadius)
@@ -54,11 +74,15 @@ void Application::GenerateMap(float slotRadius)
 
                 if (cell == 1)
                 {
-                    slotC.soldier = true;
+                    slotC.SetPawnType(PawnType::SOLDIER);
                 }
-                if (cell == 2)
+                else if (cell == 2)
                 {
-                    slotC.lieutenant = true;
+                    slotC.SetPawnType(PawnType::LIEUTENANT);
+                }
+                else
+                {
+                    slotC.SetPawnType(PawnType::NONE);
                 }
 
             }
@@ -109,17 +133,22 @@ void Application::drawGame(GameState gameState, Camera2D& camera)
         {
         case SLOT:
             auto& slot = GetComponent<SlotC>(e);
+
             DrawRectangleLines(pos.x, pos.y, slot.radius, slot.radius, WHITE);
 
-
-            if (slot.soldier)
+            if (slot.selected)
             {
-                DrawCircle(pos.x, pos.y, slot.radius * .5f, WHITE);
+                DrawRectangleLines(pos.x, pos.y, slot.radius, slot.radius - 4, WHITE);
             }
 
-            if (slot.lieutenant)
+            Vector2 pawnOffset = { pos.x + (slot.radius * .5f), pos.y + (slot.radius * .5f) };
+            if (slot.pawnType == PawnType::SOLDIER)
             {
-                DrawCircle(pos.x, pos.y, slot.radius * .5f, BLUE);
+                DrawCircle(pawnOffset.x, pawnOffset.y, slot.radius * .25f, WHITE);
+            }
+            if (slot.pawnType == PawnType::LIEUTENANT)
+            {
+                DrawCircle(pawnOffset.x, pawnOffset.y, slot.radius * .25f, BLUE);
             }
 
 
