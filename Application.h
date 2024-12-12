@@ -33,17 +33,15 @@ public:
     int grid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
     {
         {0,0,1,1,1,0,0},
-        {0,0,1,1,1,0,0},
+        {0,0,1,4,1,0,0},
         {1,1,1,1,1,1,1},
-        {1,1,1,1,1,1,1},
+        {1,4,1,1,1,4,1},
         {1,1,2,3,3,1,1},
-        {0,0,3,3,3,0,0},
+        {0,0,3,5,3,0,0},
         {0,0,3,3,2,0,0}
     };
 
-
-
-    const vector<std::pair<int, int>> surroudingDirections = {
+    const vector<pair<int, int>> surroudingDirections = {
         {-1, -1}, {-1, 0}, {-1, 1},   // Top-left, top, top-right
         {0, -1},         {0, 1},      // Left,      l, right
         {1, -1}, {1, 0}, {1, 1}       // Bottom-left, bottom, bottom-right
@@ -89,13 +87,21 @@ enum class GameState
 struct SlotC
 {
     //config
+    pair<short, short> position;
     float radius = 10;
+    bool isDiagonal;
     PawnType pawnType;
-
+    multimap<short, short>* connections = new multimap<short, short>;
 
     //state
     bool selected;
     bool clicked = false;
+
+
+    void SetPosition(pair<short, short> position)
+    {
+        this->position = position;
+    }
 
     void SetRadius(float radius)
     {
@@ -124,6 +130,32 @@ struct SlotC
         // Check if the mouse is within the rectangle
         return CheckCollisionPointRec(mousePos, aabb);
     }
+
+    bool Contains(pair<short, short>& value)
+    {
+        for (auto& pair : *connections)
+        {
+            if (pair.first == value.first && pair.second == value.second)
+                return true;
+        }
+        return false;
+    }
+
+    void SetNeighbors(const vector<std::pair<int, int>>& directions)
+    {
+        for(const auto& dir : directions)
+        {
+            int new_y = position.first + dir.first;
+            int new_x = position.second + dir.second;
+
+            if(new_y >= 0 && new_y < BOARD_ARRAY_SIZE && new_x >= 0 && new_x < BOARD_ARRAY_SIZE)
+            {
+                pair<int, int> connectedIndex = make_pair(new_y, new_x);
+                connections->emplace(connectedIndex);
+            }
+        }
+    }
+
 };
 
 
@@ -131,12 +163,15 @@ struct SlotC
 struct SlotScript final : EntityScript
 {
     void onCreate(entt::entity self) override;
+
     void onMouseEvent(entt::entity self) override;
 
-    void MoveOccupier(SlotC& self, SlotC& other)
+    void MoveOccupier(entt::entity& self, entt::entity& other)
     {
-        self.SetPawnType(other.pawnType);
-        other.SetPawnType(PawnType::NONE);
+        auto& selfSlot = GetComponent<SlotC>(self);
+        auto& otherSlot = GetComponent<SlotC>(other);
+
+
     }
 };
 

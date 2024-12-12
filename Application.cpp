@@ -38,10 +38,14 @@ void SlotScript::onMouseEvent(entt::entity self)
             // Check if the previousSlot is valid and contains the SlotC component
             if (previousSlot != entt::null && internal::REGISTRY.valid(previousSlot) && internal::REGISTRY.all_of<SlotC>(previousSlot))
             {
-                auto& originSlot = GetComponent<SlotC>(previousSlot);
                 if (slot.pawnType == PawnType::NONE)
                 {
-                    MoveOccupier(slot, originSlot);
+                    auto& otherSlot = GetComponent<SlotC>(previousSlot);
+                    if (slot.Contains(otherSlot.position) || otherSlot.Contains(slot.position))
+                    {
+                        slot.SetPawnType(otherSlot.pawnType);
+                        otherSlot.SetPawnType(PawnType::NONE);
+                    }
                 }
             }
             slot.selected = !slot.selected;
@@ -61,7 +65,10 @@ void SlotScript::onMouseEvent(entt::entity self)
 
 void Application::GenerateMap(float slotRadius)
 {
-    Vector2 middlePoint (GetScreenWidth() / 2, GetScreenHeight() / 2);
+    Vector2 middlePoint(GetScreenWidth() / 2, GetScreenHeight() / 2);
+
+    // Store slot entities in a 2D array to access them later
+
     for (int y = 0; y < BOARD_ARRAY_SIZE; y++)
     {
         for (int x = 0; x < BOARD_ARRAY_SIZE; x++)
@@ -74,26 +81,42 @@ void Application::GenerateMap(float slotRadius)
                 auto slot = CreateEntity(SLOT, posX, posY, MapID::LEVEL);
 
                 auto& slotC = GetComponent<SlotC>(slot);
-
+                slotC.SetPosition(make_pair(y, x));
                 slotC.SetRadius(30);
 
-                if (cell == 1)
+                if (cell == 1 || cell == 4)
                 {
                     slotC.SetPawnType(PawnType::SOLDIER);
+                    if (cell == 4)
+                    {
+                        slotC.SetNeighbors(asoltoBoard.surroudingDirections);
+                    }
+                    else
+                    {
+                        slotC.SetNeighbors(asoltoBoard.neighborDirections);
+                    }
                 }
                 else if (cell == 2)
                 {
                     slotC.SetPawnType(PawnType::LIEUTENANT);
                 }
-                else
+                else if (cell == 3 || cell == 5)
                 {
                     slotC.SetPawnType(PawnType::NONE);
+                    if (cell == 5)
+                    {
+                        slotC.SetNeighbors(asoltoBoard.surroudingDirections);
+                    }
+                    else
+                    {
+                        slotC.SetNeighbors(asoltoBoard.neighborDirections);
+                    }
                 }
-
             }
         }
     }
 }
+
 
 void Application::onStartup(AssetLoader& loader)
 {
@@ -124,6 +147,7 @@ void Application::updateGame(GameState gameState)
     {
         shutDown();
     }
+
 };
 
 void Application::drawGame(GameState gameState, Camera2D& camera)
@@ -155,7 +179,6 @@ void Application::drawGame(GameState gameState, Camera2D& camera)
             {
                 DrawCircle(pawnOffset.x, pawnOffset.y, slot.radius * .25f, BLUE);
             }
-
 
             break;
         }
