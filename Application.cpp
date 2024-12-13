@@ -15,6 +15,9 @@
 static Grid asoltoBoard;
 static bool clicked = false;
 static entt::entity previousSlot;
+static PawnType turnType = PawnType::LIEUTENANT;
+static bool turn = false;
+
 
 void SlotScript::onCreate(entt::entity self)
 {
@@ -34,15 +37,16 @@ void SlotScript::onMouseEvent(entt::entity self)
         slot.clicked = true;
         if (slot.mouseInBounds(self))
         {
-
-            // Check if the previousSlot is valid and contains the SlotC component
             if (previousSlot != entt::null && internal::REGISTRY.valid(previousSlot) && internal::REGISTRY.all_of<SlotC>(previousSlot))
             {
-                if (slot.pawnType == PawnType::NONE)
+                auto& otherSlot = GetComponent<SlotC>(previousSlot);
+                if (slot.pawnType == PawnType::NONE && otherSlot.pawnType == turnType)
                 {
-                    auto& otherSlot = GetComponent<SlotC>(previousSlot);
                     if (slot.Contains(otherSlot.position) || otherSlot.Contains(slot.position))
                     {
+                        turn = !turn;
+                        turnType = turn ? PawnType::SOLDIER : PawnType::LIEUTENANT;
+
                         slot.SetPawnType(otherSlot.pawnType);
                         otherSlot.SetPawnType(PawnType::NONE);
                     }
@@ -66,8 +70,6 @@ void SlotScript::onMouseEvent(entt::entity self)
 void Application::GenerateMap(float slotRadius)
 {
     Vector2 middlePoint(GetScreenWidth() / 2, GetScreenHeight() / 2);
-
-    // Store slot entities in a 2D array to access them later
 
     for (int y = 0; y < BOARD_ARRAY_SIZE; y++)
     {

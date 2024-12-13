@@ -163,16 +163,7 @@ struct SlotC
 struct SlotScript final : EntityScript
 {
     void onCreate(entt::entity self) override;
-
     void onMouseEvent(entt::entity self) override;
-
-    void MoveOccupier(entt::entity& self, entt::entity& other)
-    {
-        auto& selfSlot = GetComponent<SlotC>(self);
-        auto& otherSlot = GetComponent<SlotC>(other);
-
-
-    }
 };
 
 struct Application final : Game
