@@ -64,9 +64,9 @@ enum EntityType : uint16_t
 
 enum class PawnType : uint8_t
 {
-    NONE,
-    SOLDIER,
-    LIEUTENANT
+    NONE = 0,
+    SOLDIER = 1,
+    LIEUTENANT = 2
 };
 
 enum class MapID : uint8_t
@@ -156,13 +156,14 @@ struct SlotC
         }
     }
 
+
+
 };
 
 
 //scripts
 struct SlotScript final : EntityScript
 {
-    void onCreate(entt::entity self) override;
     void onMouseEvent(entt::entity self) override;
 };
 

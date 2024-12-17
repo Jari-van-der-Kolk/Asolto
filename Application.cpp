@@ -1,70 +1,98 @@
 ﻿#include "Application.h"
 #include "Application.h"
 
+#include <ankerl/unordered_dense.h>
 #include <sys/stat.h>
 
 #include "GLFW/glfw3.h"
-//0011100
-//0011100
-//1111111
-//1111111
-//1122211
-//0022200
-//0022200
+
 
 static Grid asoltoBoard;
 static bool clicked = false;
 static entt::entity previousSlot;
 static PawnType turnType = PawnType::LIEUTENANT;
 static bool turn = false;
+static ankerl::unordered_dense::map<pair<short,short>, SlotC*>  slotPositions;
 
 
-void SlotScript::onCreate(entt::entity self)
-{
-    EntityScript::onCreate(self);
-
-}
 
 void SlotScript::onMouseEvent(entt::entity self)
 {
     // Call the parent class method
     EntityScript::onMouseEvent(self);
 
-    auto& slot = GetComponent<SlotC>(self);
+    auto& selectedSlot = GetComponent<SlotC>(self);
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !slot.clicked)
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !selectedSlot.clicked)
     {
-        slot.clicked = true;
-        if (slot.mouseInBounds(self))
+        selectedSlot.clicked = true;
+        if (selectedSlot.mouseInBounds(self))
         {
             if (previousSlot != entt::null && internal::REGISTRY.valid(previousSlot) && internal::REGISTRY.all_of<SlotC>(previousSlot))
             {
-                auto& otherSlot = GetComponent<SlotC>(previousSlot);
-                if (slot.pawnType == PawnType::NONE && otherSlot.pawnType == turnType)
+                auto& previousSlotComponent = GetComponent<SlotC>(previousSlot);
+
+                const bool containsConnection = selectedSlot.Contains(previousSlotComponent.position) || previousSlotComponent.Contains(selectedSlot.position);
+                const bool isSlotEmpty = selectedSlot.pawnType == PawnType::NONE;
+                const bool turnTypeCheck = previousSlotComponent.pawnType == turnType;
+
+                if (containsConnection && isSlotEmpty && turnTypeCheck)
                 {
-                    if (slot.Contains(otherSlot.position) || otherSlot.Contains(slot.position))
-                    {
                         turn = !turn;
                         turnType = turn ? PawnType::SOLDIER : PawnType::LIEUTENANT;
 
-                        slot.SetPawnType(otherSlot.pawnType);
-                        otherSlot.SetPawnType(PawnType::NONE);
+                        selectedSlot.SetPawnType(previousSlotComponent.pawnType);
+                        previousSlotComponent.SetPawnType(PawnType::NONE);
+                }
+                else if (turnTypeCheck && turnType == PawnType::LIEUTENANT)
+                {
+                    const int x1 = selectedSlot.position.second - previousSlotComponent.position.second + selectedSlot.position.second;
+                    const int y1 = selectedSlot.position.first - previousSlotComponent.position.first + selectedSlot.position.first;
+
+                    const pair<short,short> id = make_pair(y1,x1);
+
+                    if (!slotPositions.contains(id))
+                    {
+                        goto skip;
                     }
+
+                    SlotC* foundSlot = slotPositions.find(id)->second;
+
+                    if (foundSlot->pawnType != PawnType::NONE)
+                    {
+                        goto skip;
+                    }
+
+                    const bool selectedAndPreviousConnections = selectedSlot.Contains(previousSlotComponent.position) || previousSlotComponent.Contains(selectedSlot.position);
+                    const bool foundAndSelectedConnections = selectedSlot.Contains(foundSlot->position) || foundSlot->Contains(selectedSlot.position);
+
+                    if (selectedAndPreviousConnections && foundAndSelectedConnections)
+                    {
+                        foundSlot->SetPawnType(previousSlotComponent.pawnType);
+                        previousSlotComponent.SetPawnType(PawnType::NONE);
+                        selectedSlot.SetPawnType(PawnType::NONE);
+
+                        turn = !turn;
+                        turnType = turn ? PawnType::SOLDIER : PawnType::LIEUTENANT;
+                    }
+
                 }
             }
-            slot.selected = !slot.selected;
+
+            skip:
+            selectedSlot.selected = !selectedSlot.selected;
             previousSlot = self;
+            cout << static_cast<int>(turnType) << endl;
         }
     }
     else
     {
-        slot.clicked = false;
+        selectedSlot.clicked = false;
         if (previousSlot != self)
         {
-            slot.selected = false;
+            selectedSlot.selected = false;
         }
     }
-
 }
 
 void Application::GenerateMap(float slotRadius)
@@ -85,6 +113,8 @@ void Application::GenerateMap(float slotRadius)
                 auto& slotC = GetComponent<SlotC>(slot);
                 slotC.SetPosition(make_pair(y, x));
                 slotC.SetRadius(30);
+
+                slotPositions[make_pair(y,x)] = &slotC;
 
                 if (cell == 1 || cell == 4)
                 {
@@ -149,7 +179,6 @@ void Application::updateGame(GameState gameState)
     {
         shutDown();
     }
-
 };
 
 void Application::drawGame(GameState gameState, Camera2D& camera)
