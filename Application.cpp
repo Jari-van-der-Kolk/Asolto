@@ -1,101 +1,16 @@
 ﻿#include "Application.h"
 #include "Application.h"
 
-#include <ankerl/unordered_dense.h>
-#include <sys/stat.h>
-
-#include "GLFW/glfw3.h"
-
-
 static Grid asoltoBoard;
-static bool clicked = false;
-static entt::entity previousSlot;
-static PawnType turnType = PawnType::LIEUTENANT;
 static bool turn = false;
+static PawnType turnType = PawnType::LIEUTENANT;
+static bool clicked = false;
+static float radius = 40;
+static entt::entity previousEntity;
 static ankerl::unordered_dense::map<pair<short,short>, SlotC*>  slotPositions;
 
 
-
-void SlotScript::onMouseEvent(entt::entity self)
-{
-    // Call the parent class method
-    EntityScript::onMouseEvent(self);
-
-    auto& selectedSlot = GetComponent<SlotC>(self);
-
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !selectedSlot.clicked)
-    {
-        selectedSlot.clicked = true;
-        if (selectedSlot.mouseInBounds(self))
-        {
-            if (previousSlot != entt::null && internal::REGISTRY.valid(previousSlot) && internal::REGISTRY.all_of<SlotC>(previousSlot))
-            {
-                auto& previousSlotComponent = GetComponent<SlotC>(previousSlot);
-
-                const bool containsConnection = selectedSlot.Contains(previousSlotComponent.position) || previousSlotComponent.Contains(selectedSlot.position);
-                const bool isSlotEmpty = selectedSlot.pawnType == PawnType::NONE;
-                const bool turnTypeCheck = previousSlotComponent.pawnType == turnType;
-
-                if (containsConnection && isSlotEmpty && turnTypeCheck)
-                {
-                        turn = !turn;
-                        turnType = turn ? PawnType::SOLDIER : PawnType::LIEUTENANT;
-
-                        selectedSlot.SetPawnType(previousSlotComponent.pawnType);
-                        previousSlotComponent.SetPawnType(PawnType::NONE);
-                }
-                else if (turnTypeCheck && turnType == PawnType::LIEUTENANT)
-                {
-                    const int x1 = selectedSlot.position.second - previousSlotComponent.position.second + selectedSlot.position.second;
-                    const int y1 = selectedSlot.position.first - previousSlotComponent.position.first + selectedSlot.position.first;
-
-                    const pair<short,short> id = make_pair(y1,x1);
-
-                    if (!slotPositions.contains(id))
-                    {
-                        goto skip;
-                    }
-
-                    SlotC* foundSlot = slotPositions.find(id)->second;
-
-                    if (foundSlot->pawnType != PawnType::NONE)
-                    {
-                        goto skip;
-                    }
-
-                    const bool selectedAndPreviousConnections = selectedSlot.Contains(previousSlotComponent.position) || previousSlotComponent.Contains(selectedSlot.position);
-                    const bool foundAndSelectedConnections = selectedSlot.Contains(foundSlot->position) || foundSlot->Contains(selectedSlot.position);
-
-                    if (selectedAndPreviousConnections && foundAndSelectedConnections)
-                    {
-                        foundSlot->SetPawnType(previousSlotComponent.pawnType);
-                        previousSlotComponent.SetPawnType(PawnType::NONE);
-                        selectedSlot.SetPawnType(PawnType::NONE);
-
-                        turn = !turn;
-                        turnType = turn ? PawnType::SOLDIER : PawnType::LIEUTENANT;
-                    }
-
-                }
-            }
-
-            skip:
-            selectedSlot.selected = !selectedSlot.selected;
-            previousSlot = self;
-            cout << static_cast<int>(turnType) << endl;
-        }
-    }
-    else
-    {
-        selectedSlot.clicked = false;
-        if (previousSlot != self)
-        {
-            selectedSlot.selected = false;
-        }
-    }
-}
-
-void Application::GenerateMap(float slotRadius)
+void GenerateMap(float slotRadius)
 {
     Vector2 middlePoint(GetScreenWidth() / 2, GetScreenHeight() / 2);
 
@@ -103,7 +18,7 @@ void Application::GenerateMap(float slotRadius)
     {
         for (int x = 0; x < BOARD_ARRAY_SIZE; x++)
         {
-            int cell = asoltoBoard.grid[y][x];
+            int cell = asoltoBoard.defeultGrid[y][x];
             if (cell >= 1)
             {
                 float posX = middlePoint.x + (x - BOARD_ARRAY_SIZE / 2) * slotRadius;
@@ -112,7 +27,6 @@ void Application::GenerateMap(float slotRadius)
 
                 auto& slotC = GetComponent<SlotC>(slot);
                 slotC.SetPosition(make_pair(y, x));
-                slotC.SetRadius(30);
 
                 slotPositions[make_pair(y,x)] = &slotC;
 
@@ -150,6 +64,139 @@ void Application::GenerateMap(float slotRadius)
 }
 
 
+void Draw()
+{
+    auto& drawEntities = GetDrawEntities(); // Get the entities that need to be drawn
+    for (auto& e : drawEntities)
+    {
+        auto& pos = GetComponent<PositionC>(e); // Get the implicit position component
+
+        switch (pos.type)
+        {
+        case SLOT:
+
+            auto& slot = GetComponent<SlotC>(e);
+
+            DrawRectangleLines(pos.x, pos.y, radius, radius, WHITE);
+
+            if (slot.selected)
+            {
+                float reduction = 4;
+                DrawRectangleLines(pos.x + reduction, pos.y + reduction , radius - reduction * 2, radius - reduction * 2, WHITE);
+            }
+
+            Vector2 pawnOffset = { pos.x + (radius * .5f), pos.y + (radius * .5f) };
+            if (slot.pawnType == PawnType::SOLDIER)
+            {
+                DrawCircle(pawnOffset.x, pawnOffset.y, radius * .25f, WHITE);
+            }
+            if (slot.pawnType == PawnType::LIEUTENANT)
+            {
+                DrawCircle(pawnOffset.x, pawnOffset.y, radius * .25f, BLUE);
+            }
+
+            break;
+        }
+    }
+
+}
+
+void SwitchTurn()
+{
+    turn = !turn;
+    turnType = turn ? PawnType::SOLDIER : PawnType::LIEUTENANT;
+}
+
+void MoveToEmptySlot(SlotC& nextSlot, SlotC& previousSlot)
+{
+    nextSlot.SetPawnType(previousSlot.pawnType);
+    previousSlot.SetPawnType(PawnType::NONE);
+}
+
+void TakeSoldier(SlotC& nextSlot, SlotC& soldierSlot,SlotC& previousSlot)
+{
+    soldierSlot.SetPawnType(previousSlot.pawnType);
+    previousSlot.SetPawnType(PawnType::NONE);
+    nextSlot.SetPawnType(PawnType::NONE);
+}
+
+
+
+void SlotScript::onMouseEvent(entt::entity self)
+{
+    // Call the parent class method
+    EntityScript::onMouseEvent(self);
+
+    auto& nextSlot = GetComponent<SlotC>(self);
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !nextSlot.clicked)
+    {
+        nextSlot.clicked = true;
+        if (nextSlot.MouseInBounds(self))
+        {
+            if (previousEntity != entt::null && internal::REGISTRY.valid(previousEntity) && internal::REGISTRY.all_of<SlotC>(previousEntity))
+            {
+                auto& previousSlot = GetComponent<SlotC>(previousEntity);
+
+                const bool containsConnection = nextSlot.Contains(previousSlot.position) || previousSlot.Contains(nextSlot.position);
+                const bool isSlotEmpty = nextSlot.pawnType == PawnType::NONE;
+                const bool turnTypeCheck = previousSlot.pawnType == turnType;
+
+                if (containsConnection && isSlotEmpty && turnTypeCheck)
+                {
+                        SwitchTurn();
+                        MoveToEmptySlot(nextSlot, previousSlot);
+
+                }
+                else if (turnTypeCheck && turnType == PawnType::LIEUTENANT)
+                {
+                    const int x1 = nextSlot.position.second - previousSlot.position.second + nextSlot.position.second;
+                    const int y1 = nextSlot.position.first - previousSlot.position.first + nextSlot.position.first;
+
+                    const pair<short,short> id = make_pair(y1,x1);
+
+                    if (!slotPositions.contains(id))
+                    {
+                        goto skip;
+                    }
+
+                    SlotC* foundSlot = slotPositions.find(id)->second;
+
+                    if (foundSlot->pawnType != PawnType::NONE)
+                    {
+                        goto skip;
+                    }
+
+                    const bool selectedAndPreviousConnections = nextSlot.Contains(previousSlot.position) || previousSlot.Contains(nextSlot.position);
+                    const bool foundAndSelectedConnections = nextSlot.Contains(foundSlot->position) || foundSlot->Contains(nextSlot.position);
+
+                    if (selectedAndPreviousConnections && foundAndSelectedConnections)
+                    {
+                        SwitchTurn();
+                        TakeSoldier(nextSlot, *foundSlot, previousSlot);
+                    }
+
+                }
+            }
+
+            skip:
+            nextSlot.selected = !nextSlot.selected;
+            previousEntity = self;
+            cout << static_cast<int>(turnType) << endl;
+        }
+    }
+    else
+    {
+        nextSlot.clicked = false;
+        if (previousEntity != self)
+        {
+            nextSlot.selected = false;
+        }
+    }
+}
+
+
+
 void Application::onStartup(AssetLoader& loader)
 {
     SetTargetFPS(144);
@@ -170,7 +217,7 @@ void Application::onStartup(AssetLoader& loader)
 
     CreateEntity(STATIC_CAMERA, GetScreenWidth() / 2, GetScreenHeight() / 2, MapID::LEVEL);
 
-    GenerateMap(30);
+    GenerateMap(radius);
 };
 
 void Application::updateGame(GameState gameState)
@@ -185,42 +232,14 @@ void Application::drawGame(GameState gameState, Camera2D& camera)
 {
     BeginDrawing();
     ClearBackground(BLACK);
-    auto& drawEntities = GetDrawEntities(); // Get the entities that need to be drawn
-    for (auto& e : drawEntities)
-    {
-        auto& pos = GetComponent<PositionC>(e); // Get the implicit position component
-        switch (pos.type)
-        {
-        case SLOT:
-            auto& slot = GetComponent<SlotC>(e);
 
-            DrawRectangleLines(pos.x, pos.y, slot.radius, slot.radius, WHITE);
-
-            if (slot.selected)
-            {
-                DrawRectangleLines(pos.x, pos.y, slot.radius, slot.radius - 4, WHITE);
-            }
-
-            Vector2 pawnOffset = { pos.x + (slot.radius * .5f), pos.y + (slot.radius * .5f) };
-            if (slot.pawnType == PawnType::SOLDIER)
-            {
-                DrawCircle(pawnOffset.x, pawnOffset.y, slot.radius * .25f, WHITE);
-            }
-            if (slot.pawnType == PawnType::LIEUTENANT)
-            {
-                DrawCircle(pawnOffset.x, pawnOffset.y, slot.radius * .25f, BLUE);
-            }
-
-            break;
-        }
-    }
+    Draw();
 
     EndDrawing();
 
 };
 void Application::onCloseEvent()
 {
-
     shutDown();
 }
 

@@ -10,6 +10,7 @@
 #include <utility>  // for std::make_pair
 #include <raylib/raylib.h>
 #include <magique/magique.hpp>
+#include <ankerl/unordered_dense.h>
 
 
 #define SPACING 25
@@ -30,7 +31,7 @@ using namespace magique;
 class Grid
 {
 public:
-    int grid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
+    int defeultGrid[BOARD_ARRAY_SIZE][BOARD_ARRAY_SIZE] =
     {
         {0,0,1,1,1,0,0},
         {0,0,1,4,1,0,0},
@@ -88,8 +89,7 @@ struct SlotC
 {
     //config
     pair<short, short> position;
-    float radius = 10;
-    bool isDiagonal;
+    float radius;
     PawnType pawnType;
     multimap<short, short>* connections = new multimap<short, short>;
 
@@ -103,11 +103,6 @@ struct SlotC
         this->position = position;
     }
 
-    void SetRadius(float radius)
-    {
-        this->radius = radius;
-    }
-
     void SetPawnType(PawnType pawnType)
     {
         this->pawnType = pawnType;
@@ -118,7 +113,7 @@ struct SlotC
         return this->pawnType;
     }
 
-    bool mouseInBounds(entt::entity entity)
+    bool MouseInBounds(entt::entity& entity)
     {
         auto& pos = GetComponent<PositionC>(entity);
         // Define the AABB rectangle around the circle
@@ -155,9 +150,6 @@ struct SlotC
             }
         }
     }
-
-
-
 };
 
 
@@ -171,8 +163,6 @@ struct Application final : Game
 {
 public:
 
-    void GenerateMap(float slotRadius);
-
     Application() : Game("Asolto") {}
     ~Application(){}
     void onStartup(AssetLoader& loader) override;
@@ -183,6 +173,8 @@ public:
 
 private:
 };
+
+
 
 
 #endif // DEsBUG
