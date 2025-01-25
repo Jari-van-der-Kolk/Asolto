@@ -27,6 +27,7 @@ void GenerateMap(float slotRadius)
 
                 auto& slotC = GetComponent<SlotC>(slot);
                 slotC.SetPosition(make_pair(y, x));
+                slotC.SetRadius(slotRadius);
 
                 slotPositions[make_pair(y,x)] = &slotC;
 

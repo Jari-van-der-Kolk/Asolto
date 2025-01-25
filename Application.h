@@ -108,6 +108,11 @@ struct SlotC
         this->pawnType = pawnType;
     }
 
+    void SetRadius(float radius)
+    {
+        this->radius = radius;
+    }
+
     PawnType GetPawnType() const
     {
         return this->pawnType;
